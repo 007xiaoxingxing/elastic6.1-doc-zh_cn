@@ -14,55 +14,55 @@ Elasticsearch有三个配置文件：
 
 这些文件位于config目录中，其默认位置取决于安装来自归档分发（`tar.gz`或 `zip`）还是软件包分发（Debian或RPM软件包）。
 
-对于档案分发，config目录位置默认为 `$ES_HOME/config`。config目录的位置可以通过`ES_PATH_CONF`环境变量进行更改 ，如下所示：
+对于压缩包解压安装，config目录位置默认为 `$ES_HOME/config`。config目录的位置可以通过`ES_PATH_CONF`环境变量进行更改 ，如下所示：
 
 ```
-ES_PATH_CONF = / path / to / my / config ./bin/elasticsearch
+ES_PATH_CONF=/path/to/my/config ./bin/elasticsearch
 ```
 
-或者，您可以通过命令行或通过shell配置文件来`export`访问`ES_PATH_CONF`环境变量。
+或者，您可以通过命令行或通过shell配置文件来`export`ES_PATH_CONF环境变量。
 
-对于包发行版，config目录位置默认为 `/etc/elasticsearch`。config目录的位置也可以通过`ES_PATH_CONF`环境变量来改变，但是请注意，在你的shell中设置是不够的。相反，这个变量来源于`/etc/default/elasticsearch`（对于Debian软件包）和 `/etc/sysconfig/elasticsearch`（对于RPM软件包）。您将需要相应地编辑`ES_PATH_CONF=/etc/elasticsearch`其中一个文件中的 条目以更改config目录位置。
+对于使用软件包安装，config目录位置默认为 `/etc/elasticsearch`。config目录的位置也可以通过`ES_PATH_CONF`环境变量来改变，但是请注意，在你的shell中设置是不够的。相反，这个变量来源于`/etc/default/elasticsearch`（对于Debian软件包）和 `/etc/sysconfig/elasticsearch`（对于RPM软件包）。您将需要相应地编辑`ES_PATH_CONF=/etc/elasticsearch`中的配置来更改config目录位置。
 
-### 配置文件格式[编辑](https://github.com/elastic/elasticsearch/edit/6.1/docs/reference/setup/configuration.asciidoc)
+### 配置文件格式
 
 配置格式是[YAML](http://www.yaml.org/)。以下是更改数据和日志目录路径的示例：
 
 ```
-路径：
-    data：/ var / lib / elasticsearch
-    日志：/ var / log / elasticsearch
+path:
+    data: /var/lib/elasticsearch
+    logs: /var/log/elasticsearch
 ```
 
 设置也可以如下展开：
 
 ```
-path.data：/ var / lib / elasticsearch
-path.logs：/ var / log / elasticsearch
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
 ```
 
-### 环境变量替换[编辑](https://github.com/elastic/elasticsearch/edit/6.1/docs/reference/setup/configuration.asciidoc)
+### 环境变量替换
 
 使用`${...}`配置文件中的符号引用的环境变量将被替换为环境变量的值，例如：
 
 ```
-node.name：$ {HOSTNAME}
-network.host：$ {ES_NETWORK_HOST}
+node.name:    ${HOSTNAME}
+network.host: ${ES_NETWORK_HOST}
 ```
 
-### 提示设置[编辑](https://github.com/elastic/elasticsearch/edit/6.1/docs/reference/setup/configuration.asciidoc)
+### 提示设置
 
 对于不希望存储在配置文件中的设置，可以使用该值`${prompt.text}`或`${prompt.secret}`在前台启动Elasticsearch。`${prompt.secret}`已禁用回声，以便输入的值不会显示在您的终端中; `${prompt.text}`将允许您在输入时看到该值。例如：
 
 ```
-节点：
-  名称：$ {prompt.text}
+node:
+  name: ${prompt.text}
 ```
 
 启动Elasticsearch时，系统会提示您输入实际值，如下所示：
 
 ```
-输入[node.name]的值：
+Enter value for [node.name]:
 ```
 
 ![注意](https://www.elastic.co/guide/en/elasticsearch/reference/current/images/icons/note.png)
